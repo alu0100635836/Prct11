@@ -83,23 +83,21 @@ class Matrizdispersa < Matriz
    end
 
 #MULTIPLICACION
-  def *(other)
+   def *(other)  
       ms = Hash.new(0)
       h = Hash.new(0)
       @mul = 0
-      @matrix.keys.count.times do |k|
-      @k = matrix.keys[k]
-        0.upto(other.hash.keys.count) { |j|
-          @matrix[@k].keys.count.times do |i|
-          @i = @matrix[@k].keys[i]
-              if other.hash[@i][j] != 0 then
-                @mul += @matrix[@k][@i] * other.hash[@i][j]
+      for k in @matrix.keys do
+        for j in 0..other.hash.keys.count do
+          for i in @matrix[k].keys do
+              if other.hash[i][j] != 0 then
+                @mul += @matrix[k][i] * other.hash[i][j]
               end
           end
           h[j] = @mul unless @mul == 0
           @mul = 0
-	}
-        ms[@k] = h.clone unless h.empty?
+        end
+        ms[k] = h.clone unless h.empty?
         h.clear
       end
       ms2 = Matrizdispersa.new(ms)
